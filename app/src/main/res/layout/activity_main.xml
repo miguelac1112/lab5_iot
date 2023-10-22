@@ -11,30 +11,29 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:fontFamily="@font/forbiden"
         android:text="Programa de Tutorías"
+        android:textAlignment="center"
         android:textColor="#000107"
-        android:textSize="30sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textSize="40sp"
+        app:layout_constraintBottom_toTopOf="@+id/imageView2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.104" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="172dp"
-        android:layout_height="138dp"
+        android:layout_width="180dp"
+        android:layout_height="180dp"
         android:layout_marginStart="119dp"
-        android:layout_marginEnd="120dp"
+        android:layout_marginBottom="12dp"
         android:background="@drawable/circle"
-        app:layout_constraintBottom_toTopOf="@+id/button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintBottom_toTopOf="@+id/btnTutor"
+        app:layout_constraintEnd_toEndOf="@+id/textView"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
-        app:layout_constraintVertical_bias="0.578"
         app:srcCompat="@drawable/manager" />
 
     <ImageView
@@ -45,30 +44,30 @@
         android:layout_marginEnd="120dp"
         android:background="@drawable/circle"
         android:layout_marginBottom="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/button2"
+        app:layout_constraintBottom_toTopOf="@+id/btnTrabajador"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/trabajador" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/btnTutor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="161dp"
         android:layout_marginEnd="162dp"
-        android:layout_marginBottom="20dp"
-        android:text="Tutor"
+        android:layout_marginBottom="372dp"
         android:backgroundTint="#02071E"
-        android:textSize="18sp"
         android:fontFamily="@font/forbiden"
-        app:layout_constraintBottom_toTopOf="@+id/imageView3"
+        android:text="Tutor"
+        android:textSize="22sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/btnTrabajador"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="147dp"
@@ -78,7 +77,7 @@
         android:backgroundTint="#010207"
         android:fontFamily="@font/forbiden"
         app:layout_constraintHorizontal_bias="0.5"
-        android:textSize="18sp"
+        android:textSize="22sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
