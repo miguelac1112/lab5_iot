@@ -15,6 +15,15 @@
         android:theme="@style/Theme.Lab5_iot"
         tools:targetApi="31">
         <activity
+            android:name=".BuscarTrabajadorActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AsignTutoriaActivity"
+            android:exported="false" />
+        <activity
+            android:name=".DownListTrabajadorActivity"
+            android:exported="false" />
+        <activity
             android:name=".CommentActivity"
             android:exported="false" />
         <activity

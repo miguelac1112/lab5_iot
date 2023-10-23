@@ -90,7 +90,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void notificarImportanceHigh2(boolean tieneTutoria) {
-
         Intent intent = new Intent(this, TrabajadorActivity.class);
 
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE);

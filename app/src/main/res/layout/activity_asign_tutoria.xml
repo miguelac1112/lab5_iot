@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AsignTutoriaActivity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="16dp"
+        android:background="#DA7F79">
+
+        <EditText
+            android:id="@+id/editTextTutorCode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Código de tutor"
+            android:padding="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/circle"/>
+
+        <EditText
+            android:id="@+id/editTextEmployeeId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="ID del empleado"
+            android:padding="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/circle"/>
+
+        <Button
+            android:id="@+id/asignarTutoriaButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="Asignar Tutoría"
+            android:backgroundTint="@color/black"/>
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
