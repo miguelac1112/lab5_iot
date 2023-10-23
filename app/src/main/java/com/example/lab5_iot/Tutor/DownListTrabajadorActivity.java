@@ -1,22 +1,22 @@
 package com.example.lab5_iot.Tutor;
 
-import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
-
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.lab5_iot.R;
-import com.example.lab5_iot.databinding.ActivityCommentBinding;
 import com.example.lab5_iot.databinding.ActivityDownListTrabajadorBinding;
-import com.example.lab5_iot.databinding.ActivityMainBinding;
 import com.example.lab5_iot.entity.trabajadores;
 import com.example.lab5_iot.entity.trabajadoresDTO;
 import com.example.lab5_iot.services.TutorRepository;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.List;
 
 import retrofit2.Call;
@@ -51,23 +51,16 @@ public class DownListTrabajadorActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<trabajadoresDTO> call, Response<trabajadoresDTO> response) {
                     if (response.isSuccessful()) {
-                        if (response.body() != null) {
-                            trabajadoresDTO body = response.body();
-                            List<trabajadores> trabajadoresList = body.getTrabajadores();
-                            Log.d("msg-test", "Solicitando trabajadores con tutorId: " + tutorIdText);
-                            if (trabajadoresList != null) {
-                                Log.d("msg-test", "Lista de trabajadores:");
-                                for (trabajadores trabajador : trabajadoresList) {
-                                    Log.d("msg-test", "Nombre: " + trabajador.getName());
-                                    Log.d("msg-test", "Email: " + trabajador.getEmail());
-                                    Log.d("msg-test", "Número de teléfono: " + trabajador.getPhone_number());
-                                }
-                            } else {
-                                Log.d("msg-test", "La lista de trabajadores es nula");
-                            }
-                        } else {
-                            Log.d("msg-test", "La respuesta del servidor no tiene datos de trabajadores");
+                        trabajadoresDTO body = response.body();
+                        List<trabajadores> trabajadoresList = body.getTrabajadores();
+                        Log.d("msg-test", "Solicitando trabajadores con tutorId: " + tutorIdText);
+                        Log.d("msg-test", "Lista de trabajadores:");
+                        for (trabajadores trabajador : trabajadoresList) {
+                            Log.d("msg-test", "Nombre: " + trabajador.getName());
+                            Log.d("msg-test", "Email: " + trabajador.getEmail());
+                            Log.d("msg-test", "Número de teléfono: " + trabajador.getPhone_number());
                         }
+                        guardarArchivoComoTxt(trabajadoresList);
                     } else {
                         Log.d("msg-test", "La respuesta del servidor no es exitosa");
                     }
@@ -79,4 +72,29 @@ public class DownListTrabajadorActivity extends AppCompatActivity {
             });
         });
     }
+    public void guardarArchivoComoTxt(List<trabajadores> trabajadoresList) {
+
+        StringBuilder content = new StringBuilder();
+
+        for (trabajadores trabajador : trabajadoresList) {
+            content.append("Nombre: ").append(trabajador.getName()).append("\n");
+            content.append("Email: ").append(trabajador.getEmail()).append("\n");
+            content.append("Número de teléfono: ").append(trabajador.getPhone_number()).append("\n\n");
+        }
+
+        String fileNameTxt = "listaTrabajadores.txt";
+
+        try (FileOutputStream fileOutputStream = this.openFileOutput(fileNameTxt, Context.MODE_PRIVATE);
+             OutputStreamWriter writer = new OutputStreamWriter(fileOutputStream)) {
+
+            writer.write(content.toString());
+
+            Log.d("msg-test", "Archivo de texto guardado como " + fileNameTxt);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            Log.e("msg-test", "Error al guardar el archivo de texto: " + e.getMessage());
+        }
+    }
+
 }
