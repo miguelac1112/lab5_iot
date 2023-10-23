@@ -8,7 +8,7 @@
     android:orientation="vertical"
     android:padding="16dp"
     android:gravity="center"
-    tools:context=".DownListTrabajadorActivity"
+    tools:context=".Tutor.DownListTrabajadorActivity"
     android:background="#DA7F79">
 
     <EditText
@@ -25,5 +25,6 @@
         android:layout_height="wrap_content"
         android:text="Descargar Lista"
         android:textSize="23sp"
+        android:onClick="descargarListaClick"
         android:backgroundTint="@color/black"/>
 </LinearLayout>

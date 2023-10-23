@@ -1,13 +1,12 @@
-package com.example.lab5_iot;
+package com.example.lab5_iot.Tutor;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 
-import com.example.lab5_iot.databinding.ActivityCommentBinding;
+import com.example.lab5_iot.R;
 import com.example.lab5_iot.databinding.ActivityTutorBinding;
 
 public class TutorActivity extends AppCompatActivity {

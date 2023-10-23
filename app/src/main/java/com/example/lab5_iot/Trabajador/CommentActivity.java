@@ -1,4 +1,4 @@
-package com.example.lab5_iot;
+package com.example.lab5_iot.Trabajador;
 
 import androidx.appcompat.app.AppCompatActivity;
 

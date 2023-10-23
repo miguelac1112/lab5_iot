@@ -14,9 +14,10 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 
+import com.example.lab5_iot.Trabajador.TrabajadorActivity;
+import com.example.lab5_iot.Tutor.TutorActivity;
 import com.example.lab5_iot.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
