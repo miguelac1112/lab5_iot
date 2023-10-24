@@ -76,7 +76,7 @@ public class TrabajadorCodeActivity extends AppCompatActivity {
                         List<trabajador> trabajadorList = body.getTrabajador();
                         Log.d("msg-test", "Solicitando trabajador con Id: " + trabajadorIdText);
 
-                        Log.d("msg-test", "Trabajador");
+                        Log.d("msg-test", "Flujo Trabajador");
                         for (trabajador t : trabajadorList) {
                             Log.d("msg-test", "hora: " + t.getMeeting_date());
 
