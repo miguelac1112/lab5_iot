@@ -10,4 +10,6 @@ import retrofit2.http.Path;
 public interface TrabajadorRepository {
     @GET("/tutoriaAgendada/{trabajadorId}")
     Call<trabajadorDTO> getFecha(@Path("trabajadorId") String trabajadorId);
+
+
 }

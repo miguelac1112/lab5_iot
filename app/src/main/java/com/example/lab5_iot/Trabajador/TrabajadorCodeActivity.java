@@ -79,21 +79,23 @@ public class TrabajadorCodeActivity extends AppCompatActivity {
                         for (trabajador t : trabajadorList) {
                             Log.d("msg-test", "hora: " + t.getMeeting_date());
 
-                            // Analizar la cadena en un objeto LocalDateTime si no es nula
                             LocalDateTime meetingDate = null;
                             if (t.getMeeting_date() != null) {
                                 meetingDate = LocalDateTime.parse(t.getMeeting_date(), DateTimeFormatter.ISO_DATE_TIME);
                             }
 
-                            // Simula si el trabajador tiene una tutoría agendada o no
                             boolean tieneTutoria = (meetingDate != null);
-
                             notificarImportanceHigh2(tieneTutoria, String.valueOf(meetingDate));
-                            Intent intent = new Intent(TrabajadorCodeActivity.this, TrabajadorActivity.class);
-                            startActivity(intent);
+
+                            if (tieneTutoria) {
+                                Intent intent = new Intent(TrabajadorCodeActivity.this, TrabajadorActivity.class);
+                                intent.putExtra("meetingDate", String.valueOf(meetingDate));
+                                startActivity(intent);
+                            } else {
+                                Intent intent = new Intent(TrabajadorCodeActivity.this, TrabajadorActivity.class);
+                                startActivity(intent);
+                            }
                         }
-
-
                     } else {
                         Log.d("msg-test", "La respuesta del servidor no es exitosa");
                     }
@@ -125,7 +127,6 @@ public class TrabajadorCodeActivity extends AppCompatActivity {
     }
     public void notificarImportanceHigh2(boolean tieneTutoria, String meetingDateStr) {
         Intent intent = new Intent(this, TrabajadorActivity.class);
-
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, channelID)
