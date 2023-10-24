@@ -6,10 +6,15 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.app.DownloadManager;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -31,6 +36,8 @@ import com.example.lab5_iot.ip;
 import com.example.lab5_iot.services.TrabajadorRepository;
 
 import java.io.File;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import retrofit2.Call;
@@ -42,6 +49,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class TrabajadorActivity extends AppCompatActivity {
     private Button iniciarComentario;
     private Button btnDownloadHorarios;
+
+    String channelID = "channelDefaultPri";
     String serverIp = ip.SERVER_IP;
 
 
@@ -83,6 +92,7 @@ public class TrabajadorActivity extends AppCompatActivity {
                         Log.d("msg-test", "La fecha es : " + fecha);
                         if(fecha.equals("null")){
                             Log.d("msg-test","La fecha es nula");
+                            notificarImportanceHigh2();
                         }else{
                             Log.d("msg-test","La fecha no es nula");
 
@@ -158,10 +168,43 @@ public class TrabajadorActivity extends AppCompatActivity {
             });
 
 
+    public void createNotificationChannel() {
+        NotificationChannel channel = new NotificationChannel(channelID,
+                "Canal notificaciones default",
+                NotificationManager.IMPORTANCE_HIGH);
+        channel.setDescription("Canal para notificaciones con prioridad default");
+
+        NotificationManager notificationManager = getSystemService(NotificationManager.class);
+        notificationManager.createNotificationChannel(channel);
+
+        askPermission();
+    }
+
     public void askPermission() {
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
                 ActivityCompat.checkSelfPermission(this, POST_NOTIFICATIONS) == PackageManager.PERMISSION_DENIED) {
             ActivityCompat.requestPermissions(TrabajadorActivity.this, new String[]{POST_NOTIFICATIONS}, 101);
+        }
+    }
+
+    public void notificarImportanceHigh2() {
+        Intent intent = new Intent(this, TrabajadorActivity.class);
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, channelID)
+                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setContentTitle("Tutorías") // Mensaje requerido
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setContentIntent(pendingIntent)
+                .setAutoCancel(true);
+
+        builder.setContentText("“No cuenta con tutorías pendientes");
+
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+
+        if (ActivityCompat.checkSelfPermission(this, POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
+            notificationManager.notify(1, builder.build());
         }
     }
 }
