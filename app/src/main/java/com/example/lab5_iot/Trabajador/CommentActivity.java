@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.lab5_iot.R;
+import com.example.lab5_iot.Tutor.AsignTutoriaActivity;
 import com.example.lab5_iot.databinding.ActivityCommentBinding;
 import com.example.lab5_iot.databinding.ActivityMainBinding;
 import com.example.lab5_iot.entity.commentDTO;
@@ -50,6 +51,7 @@ public class CommentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityCommentBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        createNotificationChannel();
 
         Intent intent1 = getIntent();
         String codigo = intent1.getStringExtra("employeeId");
@@ -75,8 +77,17 @@ public class CommentActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<commentRpt> call, Response<commentRpt> response) {
                     if (response.isSuccessful()) {
-                        // Comentario almacenado en la base de datos, recibir notificación
-                        notificarImportanceHigh3(true);
+                        commentRpt body = response.body();
+                        Log.d("msg-test", String.valueOf(body));
+                        String comentario = body.getMessage();
+                        Log.d("msg-test", comentario);
+                        if(comentario.equals("Actualización exitosa")){
+                            // Comentario almacenado en la base de datos, recibir notificación
+                            notificarImportanceHigh3(true);
+                        } else if (comentario.equals("Aun no tiene la tutoria")) {
+                            notificarImportanceHigh2();
+                        }
+
                     } else {
                         Log.d("msg-test", "no se envio nada ");
                         // Manejar la respuesta del servidor si no fue exitosa
@@ -123,6 +134,27 @@ public class CommentActivity extends AppCompatActivity {
                 .setAutoCancel(true);
 
         builder.setContentText("Feedback enviado de manera exitosa");
+
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+
+        if (ActivityCompat.checkSelfPermission(this, POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
+            notificationManager.notify(1, builder.build());
+        }
+    }
+
+    public void notificarImportanceHigh2() {
+        Intent intent = new Intent(this, AsignTutoriaActivity.class);
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, channelIDcom)
+                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setContentTitle("FEEDBACK") // Mensaje requerido
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setContentIntent(pendingIntent)
+                .setAutoCancel(true);
+
+        builder.setContentText("Aun no tiene la tutoria");
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
 

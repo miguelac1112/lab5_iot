@@ -94,7 +94,7 @@ public class AsignTutoriaActivity extends AppCompatActivity {
                             notificarImportanceHigh4();
                         }
                     } else {
-                        // Manejar una respuesta no exitosa
+                        Log.d("msg-test", "La respuesta del servidor no es exitosa");
                     }
                 }
                 @Override
