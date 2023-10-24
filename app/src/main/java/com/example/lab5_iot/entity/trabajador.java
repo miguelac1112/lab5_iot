@@ -8,6 +8,7 @@ public class trabajador implements Serializable {
     private String email;
     private String phone_number;
     private String meeting_date;
+    private String employee_feedback;
 
     public String getName() {
         return name;
@@ -39,5 +40,13 @@ public class trabajador implements Serializable {
 
     public void setMeeting_date(String meeting_date) {
         this.meeting_date = meeting_date;
+    }
+
+    public String getEmployee_feedback() {
+        return employee_feedback;
+    }
+
+    public void setEmployee_feedback(String employee_feedback) {
+        this.employee_feedback = employee_feedback;
     }
 }

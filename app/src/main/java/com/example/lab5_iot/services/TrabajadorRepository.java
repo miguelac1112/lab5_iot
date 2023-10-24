@@ -7,6 +7,7 @@ import com.example.lab5_iot.entity.trabajadoresDTO;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface TrabajadorRepository {
     @GET("/tutoriaAgendada/{trabajadorId}")

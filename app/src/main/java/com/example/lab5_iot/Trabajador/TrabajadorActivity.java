@@ -117,7 +117,8 @@ public class TrabajadorActivity extends AppCompatActivity {
 
         iniciarComentario=findViewById(R.id.btnFeedback);
         iniciarComentario.setOnClickListener(view ->  {
-                Intent intent = new Intent(TrabajadorActivity.this, CommentActivity.class);
+            Intent intent = new Intent(TrabajadorActivity.this, CommentActivity.class);
+            intent.putExtra("employeeId", codigo);  // Pasa el ID del empleado
             startActivity(intent);
         });
     }
