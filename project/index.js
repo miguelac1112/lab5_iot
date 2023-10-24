@@ -121,7 +121,7 @@ const conn = mysql.createConnection({
                 console.error(err);
                 res.status(500).json({ error: 'Error en la consulta' });
             } else {
-                res.json({ trabajador: rows });
+                res.json({ meetingDate: rows });
             }
         });
     });
