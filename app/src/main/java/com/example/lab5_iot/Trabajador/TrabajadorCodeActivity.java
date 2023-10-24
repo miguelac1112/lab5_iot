@@ -14,16 +14,22 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.lab5_iot.MainActivity;
 import com.example.lab5_iot.R;
 import com.example.lab5_iot.databinding.ActivityMainBinding;
 import com.example.lab5_iot.databinding.ActivityTrabajadorCodeBinding;
 
+import org.w3c.dom.Text;
+
 public class TrabajadorCodeActivity extends AppCompatActivity {
 
     private Button iniciarFlujoTrabajador;
+    private EditText validarTrabajador;
     String channelID = "channelDefaultPri";
 
     private ActivityTrabajadorCodeBinding binding;
@@ -40,12 +46,20 @@ public class TrabajadorCodeActivity extends AppCompatActivity {
 
         iniciarFlujoTrabajador.setOnClickListener(view ->  {
 
-            Intent intent = new Intent(TrabajadorCodeActivity.this, TrabajadorActivity.class);
-            startActivity(intent);
-            // Simula si el trabajador tiene una tutoría agendada o no
-            boolean tieneTutoriaAgendada = true; // Cambia a true si tiene tutoría
+            validarTrabajador = findViewById(R.id.codigoTrabajador);
+            String codigo = validarTrabajador.getText().toString();
+            Log.d("msg-test", codigo);
 
-            notificarImportanceHigh2(tieneTutoriaAgendada);
+            if (codigo.matches("\\d+") && Integer.parseInt(codigo) >= 100 && Integer.parseInt(codigo) <= 206) {
+
+                Intent intent = new Intent(TrabajadorCodeActivity.this, TrabajadorActivity.class);
+                startActivity(intent);
+                boolean tieneTutoriaAgendada = true; // Cambia a true si tiene tutoría
+                notificarImportanceHigh2(tieneTutoriaAgendada);
+
+            }else{
+                Toast.makeText(this, "Código inválido", Toast.LENGTH_SHORT).show();
+            }
         });
     }
     public void createNotificationChannel() {
