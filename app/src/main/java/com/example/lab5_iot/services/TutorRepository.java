@@ -1,5 +1,6 @@
 package com.example.lab5_iot.services;
 
+import com.example.lab5_iot.entity.commentRpt;
 import com.example.lab5_iot.entity.trabajador;
 import com.example.lab5_iot.entity.trabajadorDTO;
 import com.example.lab5_iot.entity.trabajadoresDTO;
@@ -17,7 +18,7 @@ public interface TutorRepository {
     Call<trabajadorDTO> getTrabajador(@Path("trabajadorId") String trabajadorId);
 
     @GET("/actualizar-meeting")
-    Call<trabajadorDTO> actualizarMeeting(
+    Call<commentRpt> actualizarMeeting(
             @Query("employeeId") String employeeId,
             @Query("managerId") String managerId,
             @Query("meetingDate") String meetingDate

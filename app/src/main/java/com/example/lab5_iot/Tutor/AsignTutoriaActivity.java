@@ -8,6 +8,7 @@ import android.widget.EditText;
 
 import com.example.lab5_iot.R;
 import com.example.lab5_iot.databinding.ActivityAsignTutoriaBinding;
+import com.example.lab5_iot.entity.commentRpt;
 import com.example.lab5_iot.entity.trabajadorDTO;
 import com.example.lab5_iot.ip;
 import com.example.lab5_iot.services.TutorRepository;
@@ -45,9 +46,9 @@ public class AsignTutoriaActivity extends AppCompatActivity {
                     .build().create(TutorRepository.class);
 
 
-            tutorRepository.actualizarMeeting(String.valueOf(editTextEmployeeId), String.valueOf(editTextEmployeeId), String.valueOf(editTextFecha)).enqueue(new Callback<trabajadorDTO>() {
+            tutorRepository.actualizarMeeting(String.valueOf(editTextEmployeeId), String.valueOf(editTextTutorCode), String.valueOf(editTextFecha)).enqueue(new Callback<commentRpt>() {
                 @Override
-                public void onResponse(Call<trabajadorDTO> call, Response<trabajadorDTO> response) {
+                public void onResponse(Call<commentRpt> call, Response<commentRpt> response) {
                     if (response.isSuccessful()) {
                         // Manejar la respuesta exitosa
                     } else {
@@ -55,7 +56,7 @@ public class AsignTutoriaActivity extends AppCompatActivity {
                     }
                 }
                 @Override
-                public void onFailure(Call<trabajadorDTO> call, Throwable t) {
+                public void onFailure(Call<commentRpt> call, Throwable t) {
                     t.printStackTrace();
                 }
             });
