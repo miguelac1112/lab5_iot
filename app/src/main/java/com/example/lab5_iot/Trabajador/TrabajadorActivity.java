@@ -1,8 +1,11 @@
 package com.example.lab5_iot.Trabajador;
 
+import static android.Manifest.permission.POST_NOTIFICATIONS;
+
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
@@ -152,4 +155,12 @@ public class TrabajadorActivity extends AppCompatActivity {
                     Log.e("msg-test", "Permiso denegado");
                 }
             });
+
+
+    public void askPermission() {
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+                ActivityCompat.checkSelfPermission(this, POST_NOTIFICATIONS) == PackageManager.PERMISSION_DENIED) {
+            ActivityCompat.requestPermissions(TrabajadorActivity.this, new String[]{POST_NOTIFICATIONS}, 101);
+        }
+    }
 }
