@@ -14,13 +14,22 @@
         android:background="#DA7F79">
 
         <EditText
-            android:id="@+id/editTextTutorCode"
+            android:id="@+id/editTextFecha"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Código de tutor"
+            android:hint="Fecha"
             android:padding="16dp"
             android:layout_marginBottom="16dp"
             android:background="@drawable/circle"/>
+
+        <EditText
+            android:id="@+id/editTextTutorCode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/circle"
+            android:hint="Código de tutor"
+            android:padding="16dp" />
 
         <EditText
             android:id="@+id/editTextEmployeeId"
