@@ -17,19 +17,31 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.example.lab5_iot.MainActivity;
 import com.example.lab5_iot.R;
 import com.example.lab5_iot.databinding.ActivityMainBinding;
 import com.example.lab5_iot.databinding.ActivityTrabajadorCodeBinding;
+import com.example.lab5_iot.entity.trabajador;
+import com.example.lab5_iot.entity.trabajadorDTO;
+import com.example.lab5_iot.entity.trabajadores;
+import com.example.lab5_iot.entity.trabajadoresDTO;
+import com.example.lab5_iot.services.TrabajadorRepository;
+import com.example.lab5_iot.services.TutorRepository;
 
-import org.w3c.dom.Text;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class TrabajadorCodeActivity extends AppCompatActivity {
 
     private Button iniciarFlujoTrabajador;
-    private EditText validarTrabajador;
     String channelID = "channelDefaultPri";
 
     private ActivityTrabajadorCodeBinding binding;
@@ -46,20 +58,51 @@ public class TrabajadorCodeActivity extends AppCompatActivity {
 
         iniciarFlujoTrabajador.setOnClickListener(view ->  {
 
-            validarTrabajador = findViewById(R.id.codigoTrabajador);
-            String codigo = validarTrabajador.getText().toString();
-            Log.d("msg-test", codigo);
+            EditText editTextTutorId = findViewById(R.id.codigoTrabajador);
+            String trabajadorIdText = editTextTutorId.getText().toString();
 
-            if (codigo.matches("\\d+") && Integer.parseInt(codigo) >= 100 && Integer.parseInt(codigo) <= 206) {
 
-                Intent intent = new Intent(TrabajadorCodeActivity.this, TrabajadorActivity.class);
-                startActivity(intent);
-                boolean tieneTutoriaAgendada = true; // Cambia a true si tiene tutoría
-                notificarImportanceHigh2(tieneTutoriaAgendada);
+            TrabajadorRepository trabajadorRepository = new Retrofit.Builder()
+                    .baseUrl("http://192.168.1.40:3000")
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build().create(TrabajadorRepository.class);
 
-            }else{
-                Toast.makeText(this, "Código inválido", Toast.LENGTH_SHORT).show();
-            }
+            trabajadorRepository.getFecha(trabajadorIdText).enqueue(new Callback<trabajadorDTO>() {
+                @Override
+                public void onResponse(Call<trabajadorDTO> call, Response<trabajadorDTO> response) {
+                    if (response.isSuccessful()) {
+                        trabajadorDTO body = response.body();
+                        List<trabajador> trabajadorList = body.getTrabajador();
+                        Log.d("msg-test", "Solicitando trabajador con Id: " + trabajadorIdText);
+
+                        Log.d("msg-test", "Trabajador");
+                        for (trabajador t : trabajadorList) {
+                            Log.d("msg-test", "hora: " + t.getMeeting_date());
+
+                            // Analizar la cadena en un objeto LocalDateTime si no es nula
+                            LocalDateTime meetingDate = null;
+                            if (t.getMeeting_date() != null) {
+                                meetingDate = LocalDateTime.parse(t.getMeeting_date(), DateTimeFormatter.ISO_DATE_TIME);
+                            }
+
+                            // Simula si el trabajador tiene una tutoría agendada o no
+                            boolean tieneTutoria = (meetingDate != null);
+
+                            notificarImportanceHigh2(tieneTutoria, String.valueOf(meetingDate));
+                            Intent intent = new Intent(TrabajadorCodeActivity.this, TrabajadorActivity.class);
+                            startActivity(intent);
+                        }
+
+
+                    } else {
+                        Log.d("msg-test", "La respuesta del servidor no es exitosa");
+                    }
+                }
+                @Override
+                public void onFailure(Call<trabajadorDTO> call, Throwable t) {
+                    t.printStackTrace();
+                }
+            });
         });
     }
     public void createNotificationChannel() {
@@ -80,7 +123,7 @@ public class TrabajadorCodeActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(TrabajadorCodeActivity.this, new String[]{POST_NOTIFICATIONS}, 101);
         }
     }
-    public void notificarImportanceHigh2(boolean tieneTutoria) {
+    public void notificarImportanceHigh2(boolean tieneTutoria, String meetingDateStr) {
         Intent intent = new Intent(this, TrabajadorActivity.class);
 
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
@@ -93,13 +136,19 @@ public class TrabajadorCodeActivity extends AppCompatActivity {
                 .setAutoCancel(true);
 
         if (tieneTutoria) {
-            builder.setContentText("Tiene una tutoría agendada el [fecha] a las [hora]"); // Reemplaza [fecha] y [hora] con los datos reales
+            // Convertir la cadena de fecha y hora en un objeto LocalDateTime
+            LocalDateTime meetingDateTime = LocalDateTime.parse(meetingDateStr, DateTimeFormatter.ISO_DATE_TIME);
+
+            // Formatear la fecha y hora de la tutoría como una cadena de texto
+            String fechaHoraTutoria = meetingDateTime.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
+            builder.setContentText("Tiene una tutoría agendada el " + fechaHoraTutoria);
         }
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
 
         if (ActivityCompat.checkSelfPermission(this, POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
-            notificationManager.notify(2, builder.build());
+            notificationManager.notify(1, builder.build());
         }
     }
+
 }

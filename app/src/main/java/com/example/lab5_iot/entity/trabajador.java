@@ -1,11 +1,13 @@
 package com.example.lab5_iot.entity;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 public class trabajador implements Serializable {
     private String name;
     private String email;
     private String phone_number;
+    private String meeting_date;
 
     public String getName() {
         return name;
@@ -29,5 +31,13 @@ public class trabajador implements Serializable {
 
     public void setPhone_number(String phone_number) {
         this.phone_number = phone_number;
+    }
+
+    public String getMeeting_date() {
+        return meeting_date;
+    }
+
+    public void setMeeting_date(String meeting_date) {
+        this.meeting_date = meeting_date;
     }
 }
