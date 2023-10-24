@@ -1,4 +1,4 @@
-package com.example.lab5_iot;
+package com.example.lab5_iot.Trabajador;
 
 import static android.Manifest.permission.POST_NOTIFICATIONS;
 
@@ -16,45 +16,40 @@ import android.os.Build;
 import android.os.Bundle;
 import android.widget.Button;
 
-import com.example.lab5_iot.Trabajador.TrabajadorActivity;
-import com.example.lab5_iot.Trabajador.TrabajadorCodeActivity;
-import com.example.lab5_iot.Tutor.TutorActivity;
+import com.example.lab5_iot.MainActivity;
+import com.example.lab5_iot.R;
 import com.example.lab5_iot.databinding.ActivityMainBinding;
+import com.example.lab5_iot.databinding.ActivityTrabajadorCodeBinding;
 
-public class MainActivity extends AppCompatActivity {
-    private Button iniciarBtnTutor;
-    private Button iniciarBtnTrabajador;
-    String channelId = "channelDefaultPri";
+public class TrabajadorCodeActivity extends AppCompatActivity {
 
-    private ActivityMainBinding binding;
+    private Button iniciarFlujoTrabajador;
+    String channelID = "channelDefaultPri";
+
+    private ActivityTrabajadorCodeBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        binding = ActivityTrabajadorCodeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         createNotificationChannel();
 
-        iniciarBtnTutor = findViewById(R.id.btnTutor);
-        iniciarBtnTrabajador = findViewById(R.id.btnTrabajador);
+        iniciarFlujoTrabajador = findViewById(R.id.btnIngresarTrabajador);
 
-        iniciarBtnTutor.setOnClickListener(view -> {
-            Intent intent = new Intent(MainActivity.this, TutorActivity.class);
+        iniciarFlujoTrabajador.setOnClickListener(view ->  {
+
+            Intent intent = new Intent(TrabajadorCodeActivity.this, TrabajadorActivity.class);
             startActivity(intent);
-            notificarImportanceHigh();
-        });
+            // Simula si el trabajador tiene una tutoría agendada o no
+            boolean tieneTutoriaAgendada = true; // Cambia a true si tiene tutoría
 
-        iniciarBtnTrabajador.setOnClickListener(view ->  {
-
-            Intent intent = new Intent(MainActivity.this, TrabajadorCodeActivity.class);
-            startActivity(intent);
-
+            notificarImportanceHigh2(tieneTutoriaAgendada);
         });
     }
-
     public void createNotificationChannel() {
-        NotificationChannel channel = new NotificationChannel(channelId,
+        NotificationChannel channel = new NotificationChannel(channelID,
                 "Canal notificaciones default",
                 NotificationManager.IMPORTANCE_HIGH);
         channel.setDescription("Canal para notificaciones con prioridad default");
@@ -68,27 +63,29 @@ public class MainActivity extends AppCompatActivity {
     public void askPermission() {
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
                 ActivityCompat.checkSelfPermission(this, POST_NOTIFICATIONS) == PackageManager.PERMISSION_DENIED) {
-            ActivityCompat.requestPermissions(MainActivity.this, new String[]{POST_NOTIFICATIONS}, 101);
+            ActivityCompat.requestPermissions(TrabajadorCodeActivity.this, new String[]{POST_NOTIFICATIONS}, 101);
         }
     }
-
-    public void notificarImportanceHigh() {
-
-        Intent intent = new Intent(this, TutorActivity.class);
+    public void notificarImportanceHigh2(boolean tieneTutoria) {
+        Intent intent = new Intent(this, TrabajadorActivity.class);
 
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, channelId)
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, channelID)
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
-                .setContentTitle("Está entrando en modo Tutor")
+                .setContentTitle("Está entrando en modo Empleado") // Mensaje requerido
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true);
 
+        if (tieneTutoria) {
+            builder.setContentText("Tiene una tutoría agendada el [fecha] a las [hora]"); // Reemplaza [fecha] y [hora] con los datos reales
+        }
+
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
 
         if (ActivityCompat.checkSelfPermission(this, POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
-            notificationManager.notify(1, builder.build());
+            notificationManager.notify(2, builder.build());
         }
     }
 }
