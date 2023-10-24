@@ -28,8 +28,11 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import com.example.lab5_iot.ip;
+
 public class BuscarTrabajadorActivity extends AppCompatActivity {
 
+    String serverIp = ip.SERVER_IP;
     private Button buscarTrabajador;
     private ActivityBuscarTrabajadorBinding binding;
 
@@ -46,7 +49,7 @@ public class BuscarTrabajadorActivity extends AppCompatActivity {
 
 
             TutorRepository tutorRepository = new Retrofit.Builder()
-                    .baseUrl("http://192.168.1.40:3000")
+                    .baseUrl("http://"+serverIp+":3000")
                     .addConverterFactory(GsonConverterFactory.create())
                     .build().create(TutorRepository.class);
 

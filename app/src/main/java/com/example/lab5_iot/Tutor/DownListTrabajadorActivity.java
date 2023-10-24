@@ -12,6 +12,7 @@ import com.example.lab5_iot.R;
 import com.example.lab5_iot.databinding.ActivityDownListTrabajadorBinding;
 import com.example.lab5_iot.entity.trabajadores;
 import com.example.lab5_iot.entity.trabajadoresDTO;
+import com.example.lab5_iot.ip;
 import com.example.lab5_iot.services.TutorRepository;
 
 import java.io.FileOutputStream;
@@ -26,6 +27,8 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class DownListTrabajadorActivity extends AppCompatActivity {
+
+    String serverIp = ip.SERVER_IP;
     private Button iniciarDescarga;
     private ActivityDownListTrabajadorBinding binding;
 
@@ -43,7 +46,7 @@ public class DownListTrabajadorActivity extends AppCompatActivity {
 
 
             TutorRepository tutorRepository = new Retrofit.Builder()
-                    .baseUrl("http://192.168.1.40:3000")
+                    .baseUrl("http://"+serverIp+":3000")
                     .addConverterFactory(GsonConverterFactory.create())
                     .build().create(TutorRepository.class);
 
