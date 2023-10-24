@@ -61,6 +61,7 @@ public class TrabajadorActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityTrabajadorBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        createNotificationChannel();
 
         Intent intent1 = getIntent();
 
