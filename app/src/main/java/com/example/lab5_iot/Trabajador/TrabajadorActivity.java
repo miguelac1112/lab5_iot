@@ -23,6 +23,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 
 import com.example.lab5_iot.R;
@@ -65,6 +66,16 @@ public class TrabajadorActivity extends AppCompatActivity {
 
         String codigo = intent1.getStringExtra("codigo");
         Log.d("msg-test", "Llegó el codigo: "+codigo);
+
+        String meetingDateStr = intent1.getStringExtra("meetingDate");
+        Log.d("msg-test", "Llegó la fecha "+meetingDateStr);
+        iniciarComentario=findViewById(R.id.btnFeedback);
+        if (meetingDateStr != null) {
+            // Si meetingDateStr no es nulo (es decir, el trabajador tiene una tutoría agendada), muestra el botón de feedback
+            iniciarComentario.setVisibility(View.VISIBLE);
+        } else {
+            iniciarComentario.setVisibility(View.GONE);
+        }
 
         btnDownloadHorarios=findViewById(R.id.btnDownloadHorarios);
         final Context contexto = this;
@@ -123,9 +134,6 @@ public class TrabajadorActivity extends AppCompatActivity {
             });
 
         });
-
-
-        iniciarComentario=findViewById(R.id.btnFeedback);
         iniciarComentario.setOnClickListener(view ->  {
             Intent intent = new Intent(TrabajadorActivity.this, CommentActivity.class);
             intent.putExtra("employeeId", codigo);  // Pasa el ID del empleado

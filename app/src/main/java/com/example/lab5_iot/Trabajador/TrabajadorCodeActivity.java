@@ -90,9 +90,15 @@ public class TrabajadorCodeActivity extends AppCompatActivity {
                             boolean tieneTutoria = (meetingDate != null);
 
                             notificarImportanceHigh2(tieneTutoria, String.valueOf(meetingDate));
-                            Intent intent = new Intent(TrabajadorCodeActivity.this, TrabajadorActivity.class);
-                            intent.putExtra("codigo", trabajadorIdText);
-                            startActivity(intent);
+                            if (tieneTutoria) {
+                                Intent intent = new Intent(TrabajadorCodeActivity.this, TrabajadorActivity.class);
+                                intent.putExtra("codigo", trabajadorIdText);
+                                intent.putExtra("meetingDate", String.valueOf(meetingDate));
+                                startActivity(intent);
+                            } else {
+                                Intent intent = new Intent(TrabajadorCodeActivity.this, TrabajadorActivity.class);
+                                startActivity(intent);
+                            }
                         }
 
 
