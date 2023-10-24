@@ -26,6 +26,7 @@ import com.example.lab5_iot.entity.trabajador;
 import com.example.lab5_iot.entity.trabajadorDTO;
 import com.example.lab5_iot.entity.trabajadores;
 import com.example.lab5_iot.entity.trabajadoresDTO;
+import com.example.lab5_iot.ip;
 import com.example.lab5_iot.services.TrabajadorRepository;
 import com.example.lab5_iot.services.TutorRepository;
 
@@ -43,7 +44,7 @@ public class TrabajadorCodeActivity extends AppCompatActivity {
 
     private Button iniciarFlujoTrabajador;
     String channelID = "channelDefaultPri";
-
+    String serverIp = ip.SERVER_IP;
     private ActivityTrabajadorCodeBinding binding;
 
     @Override
@@ -63,7 +64,7 @@ public class TrabajadorCodeActivity extends AppCompatActivity {
 
 
             TrabajadorRepository trabajadorRepository = new Retrofit.Builder()
-                    .baseUrl("http://192.168.1.40:3000")
+                    .baseUrl("http://"+serverIp+":3000")
                     .addConverterFactory(GsonConverterFactory.create())
                     .build().create(TrabajadorRepository.class);
 
@@ -90,6 +91,7 @@ public class TrabajadorCodeActivity extends AppCompatActivity {
 
                             notificarImportanceHigh2(tieneTutoria, String.valueOf(meetingDate));
                             Intent intent = new Intent(TrabajadorCodeActivity.this, TrabajadorActivity.class);
+                            intent.putExtra("codigo", trabajadorIdText);
                             startActivity(intent);
                         }
 
