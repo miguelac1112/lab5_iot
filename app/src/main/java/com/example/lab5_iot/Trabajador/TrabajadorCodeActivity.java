@@ -93,6 +93,7 @@ public class TrabajadorCodeActivity extends AppCompatActivity {
                             if (tieneTutoria) {
                                 Intent intent = new Intent(TrabajadorCodeActivity.this, TrabajadorActivity.class);
                                 intent.putExtra("codigo", trabajadorIdText);
+                                intent.putExtra("comment", t.getEmployee_feedback());
                                 intent.putExtra("meetingDate", String.valueOf(meetingDate));
                                 startActivity(intent);
                             } else {

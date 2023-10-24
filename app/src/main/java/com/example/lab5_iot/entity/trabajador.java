@@ -3,7 +3,7 @@ package com.example.lab5_iot.entity;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class trabajador implements Serializable {
+public class trabajador extends commentRpt implements Serializable {
     private String name;
     private String email;
     private String phone_number;

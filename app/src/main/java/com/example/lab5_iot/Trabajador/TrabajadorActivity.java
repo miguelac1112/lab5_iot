@@ -67,8 +67,12 @@ public class TrabajadorActivity extends AppCompatActivity {
         String codigo = intent1.getStringExtra("codigo");
         Log.d("msg-test", "Llegó el codigo: "+codigo);
 
+        String commentStr = intent1.getStringExtra("comment");
+        Log.d("msg-test", "Llegó el comentario "+commentStr);
+
         String meetingDateStr = intent1.getStringExtra("meetingDate");
         Log.d("msg-test", "Llegó la fecha "+meetingDateStr);
+
         iniciarComentario=findViewById(R.id.btnFeedback);
         if (meetingDateStr != null) {
             // Si meetingDateStr no es nulo (es decir, el trabajador tiene una tutoría agendada), muestra el botón de feedback
@@ -137,6 +141,7 @@ public class TrabajadorActivity extends AppCompatActivity {
         iniciarComentario.setOnClickListener(view ->  {
             Intent intent = new Intent(TrabajadorActivity.this, CommentActivity.class);
             intent.putExtra("employeeId", codigo);  // Pasa el ID del empleado
+            intent.putExtra("comment2", commentStr);
             startActivity(intent);
         });
     }
